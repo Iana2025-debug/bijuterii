@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ELOGRA — Bijuterii de Lux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & BASE ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FAF8F4;
+      color: #2A2318;
+      line-height: 1.5;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    ul { list-style: none; }
+
+    /* ── TOKENS ─────────────────────────────────────────────────── */
+    :root {
+      --bg:        #FAF8F4;
+      --fg:        #2A2318;
+      --card:      #FFFFFF;
+      --secondary: #F2ECE0;
+      --muted:     #F2ECE0;
+      --muted-fg:  #8B7A5E;
+      --accent:    #B08D57;
+      --border:    rgba(176,141,87,0.2);
+      --serif:     'Playfair Display', serif;
+      --sans:      'DM Sans', sans-serif;
+    }
+
+    /* ── NAVBAR ─────────────────────────────────────────────────── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,248,244,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .navbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      letter-spacing: 0.05em;
+      color: var(--fg);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-icons button, .nav-icons a {
+      padding: 6px;
+      color: var(--fg);
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .nav-icons button:hover, .nav-icons a:hover { color: var(--accent); }
+    .cart-badge {
+      position: absolute;
+      top: -2px; right: -2px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.6rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hamburger { display: none; }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px 24px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      color: var(--fg);
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--accent); }
+
+    /* ── HERO ───────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #FAF8F4 0%, #F2ECE0 100%);
+      overflow: hidden;
+      position: relative;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+    }
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      width: 100%;
+    }
+    .hero-text { display: flex; flex-direction: column; gap: 24px; position: relative; z-index: 1; }
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 600;
+      color: var(--fg);
+      line-height: 1.2;
+    }
+    .hero-title em { color: var(--accent); font-style: italic; }
+    .hero-desc {
+      font-family: var(--sans);
+      font-size: 1rem;
+      color: var(--muted-fg);
+      line-height: 1.7;
+      max-width: 420px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 32px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 32px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--sans);
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background 0.3s;
+    }
+    .btn-outline:hover { background: var(--muted); }
+    .hero-stats { display: flex; gap: 32px; padding-top: 16px; }
+    .stat-value { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: var(--accent); }
+    .stat-label { font-family: var(--sans); font-size: 0.75rem; color: var(--muted-fg); letter-spacing: 0.05em; }
+    .hero-image-wrap { position: relative; display: flex; justify-content: flex-end; }
+    .hero-glow {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.15;
+      filter: blur(60px);
+      transform: scale(0.8);
+    }
+    .hero-img-box {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(42,35,24,0.18);
+    }
+    .hero-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-season-badge {
+      position: absolute;
+      bottom: 24px; left: 24px;
+      padding: 12px 16px;
+      background: rgba(176,141,87,0.92);
+      backdrop-filter: blur(4px);
+    }
+    .hero-season-badge .small { font-family: var(--sans); font-size: 0.7rem; color: rgba(255,255,255,0.8); letter-spacing: 0.15em; text-transform: uppercase; }
+    .hero-season-badge .big { font-family: var(--serif); font-size: 1rem; color: #fff; font-weight: 600; }
+    .hero-float-card {
+      position: absolute;
+      left: -16px;
+      top: 33%;
+      background: #fff;
+      box-shadow: 0 8px 30px rgba(42,35,24,0.12);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-left: 3px solid var(--accent);
+    }
+    .hero-float-card img { width: 56px; height: 56px; object-fit: cover; }
+    .hero-float-card .fc-label { font-family: var(--sans); font-size: 0.75rem; color: var(--muted-fg); }
+    .hero-float-card .fc-name { font-family: var(--serif); font-size: 0.9rem; font-weight: 600; color: var(--fg); }
+    .hero-float-card .fc-price { font-family: var(--sans); font-size: 0.8rem; color: var(--accent); font-weight: 600; }
+    .hero-ornament {
+      position: absolute; top: 32px; right: 32px;
+      color: var(--accent); font-size: 6rem; font-family: serif;
+      opacity: 0.1; line-height: 1;
+    }
+
+    /* ── TRUST BADGES ───────────────────────────────────────────── */
+    .trust {
+      background: var(--fg);
+      padding: 32px 0;
+    }
+    .trust-inner {
+      max-width: 1280px; margin: 0 auto; padding: 0 24px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    }
+    .trust-item { display: flex; align-items: center; gap: 16px; padding: 8px 0; }
+    .trust-icon { color: var(--accent); flex-shrink: 0; }
+    .trust-title { font-family: var(--sans); font-size: 0.85rem; font-weight: 500; color: #FAF8F4; letter-spacing: 0.02em; }
+    .trust-sub { font-family: var(--sans); font-size: 0.75rem; color: rgba(250,248,244,0.55); }
+
+    /* ── SECTION HEADER ─────────────────────────────────────────── */
+    .section-eyebrow { font-family: var(--sans); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; }
+    .section-title { font-family: var(--serif); font-size: clamp(1.8rem,3vw,2.5rem); font-weight: 600; color: var(--fg); }
+    .section-rule { width: 48px; height: 2px; background: var(--accent); margin: 16px auto 0; }
+
+    /* ── COLLECTIONS ────────────────────────────────────────────── */
+    .collections { background: var(--bg); padding: 80px 0; }
+    .collections-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .collections-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; }
+    .see-all { font-family: var(--sans); font-size: 0.875rem; color: var(--accent); display: flex; align-items: center; gap: 8px; transition: gap 0.3s; }
+    .see-all:hover { gap: 12px; }
+    .collections-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .col-card {
+      position: relative; overflow: hidden; aspect-ratio: 3/4;
+      display: block; cursor: pointer;
+    }
+    .col-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s; }
+    .col-card:hover img { transform: scale(1.05); }
+    .col-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(42,35,24,0.75) 0%, rgba(42,35,24,0.1) 60%, transparent 100%);
+    }
+    .col-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; }
+    .col-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; color: #fff; }
+    .col-sub { font-family: var(--sans); font-size: 0.75rem; color: rgba(255,255,255,0.7); letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px; }
+    .col-border {
+      position: absolute; inset: 0;
+      border: 2px solid var(--accent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .col-card:hover .col-border { opacity: 1; }
+
+    /* ── PRODUCTS ───────────────────────────────────────────────── */
+    .products { background: var(--secondary); padding: 80px 0; }
+    .products-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .products-header { text-align: center; margin-bottom: 56px; }
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .product-card {
+      background: var(--card);
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(42,35,24,0.07);
+      cursor: pointer;
+    }
+    .product-img-wrap { position: relative; overflow: hidden; aspect-ratio: 5/6; background: var(--muted); }
+    .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s; }
+    .product-card:hover .product-img-wrap img { transform: scale(1.05); }
+    .product-badge {
+      position: absolute; top: 12px; left: 12px;
+      padding: 4px 10px;
+      color: #fff;
+      font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.06em; font-weight: 500;
+    }
+    .wish-btn {
+      position: absolute; top: 12px; right: 12px;
+      width: 32px; height: 32px;
+      background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      border: none; cursor: pointer;
+    }
+    .wish-btn:hover { transform: scale(1.1); }
+    .wish-btn svg { transition: fill 0.2s, color 0.2s; }
+    .wish-btn.active svg { fill: #c0392b; color: #c0392b; }
+    .add-cart-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      transform: translateY(100%);
+      transition: transform 0.3s;
+      background: var(--accent);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px;
+      font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+      border: none; cursor: pointer; width: 100%;
+    }
+    .product-card:hover .add-cart-bar { transform: translateY(0); }
+    .product-info { padding: 16px; }
+    .product-cat { font-family: var(--sans); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .product-name { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--fg); margin-bottom: 6px; }
+    .stars { display: flex; align-items: center; gap: 2px; margin-bottom: 12px; }
+    .stars .count { font-family: var(--sans); font-size: 0.7rem; color: var(--muted-fg); margin-left: 4px; }
+    .price-row { display: flex; align-items: center; gap: 8px; }
+    .price { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; color: var(--accent); }
+    .price-old { font-family: var(--sans); font-size: 0.8rem; color: var(--muted-fg); text-decoration: line-through; }
+    .products-cta { text-align: center; margin-top: 48px; }
+
+    /* ── TESTIMONIALS ───────────────────────────────────────────── */
+    .testimonials { background: var(--bg); padding: 80px 0; }
+    .testimonials-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .testimonials-header { text-align: center; margin-bottom: 56px; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .testi-card {
+      padding: 32px; position: relative;
+      display: flex; flex-direction: column; gap: 20px;
+      background: var(--card); border: 1px solid var(--border);
+    }
+    .quote-icon { position: absolute; top: 24px; right: 24px; color: var(--accent); opacity: 0.35; }
+    .testi-stars { display: flex; gap: 2px; }
+    .testi-text { font-family: var(--sans); font-size: 0.9rem; color: var(--fg); line-height: 1.75; flex-grow: 1; }
+    .testi-product { font-family: var(--sans); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; }
+    .testi-divider { height: 1px; background: var(--border); }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+    .testi-name { font-family: var(--serif); font-size: 0.95rem; font-weight: 600; color: var(--fg); }
+    .testi-loc { font-family: var(--sans); font-size: 0.75rem; color: var(--muted-fg); }
+    .trust-stats {
+      margin-top: 64px;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 32px;
+      padding: 40px 32px;
+      background: var(--secondary);
+      border-top: 2px solid var(--accent);
+    }
+    .ts-item { text-align: center; }
+    .ts-value { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--accent); }
+    .ts-label { font-family: var(--sans); font-size: 0.8rem; color: var(--muted-fg); letter-spacing: 0.05em; margin-top: 4px; }
+
+    /* ── FOOTER ─────────────────────────────────────────────────── */
+    footer { background: var(--fg); color: #FAF8F4; }
+    .footer-newsletter {
+      padding: 48px 24px;
+      border-bottom: 1px solid rgba(176,141,87,0.2);
+    }
+    .footer-nl-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    }
+    .footer-nl-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: #FAF8F4; }
+    .footer-nl-sub { font-family: var(--sans); font-size: 0.875rem; color: rgba(250,248,244,0.6); margin-top: 4px; }
+    .footer-nl-form { display: flex; max-width: 420px; width: 100%; }
+    .footer-nl-form input {
+      flex: 1; padding: 12px 16px;
+      background: transparent;
+      border: 1px solid rgba(176,141,87,0.4);
+      border-right: none;
+      color: #FAF8F4;
+      font-family: var(--sans); font-size: 0.875rem;
+      outline: none;
+    }
+    .footer-nl-form input::placeholder { color: rgba(250,248,244,0.4); }
+    .footer-nl-form button {
+      padding: 12px 24px;
+      background: var(--accent); color: #fff;
+      font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+      border: none; cursor: pointer; transition: opacity 0.2s; white-space: nowrap;
+    }
+    .footer-nl-form button:hover { opacity: 0.9; }
+    .footer-main {
+      max-width: 1280px; margin: 0 auto;
+      padding: 56px 24px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 40px;
+    }
+    .footer-logo { font-family: var(--serif); font-size: 1.2rem; color: var(--accent); font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 16px; }
+    .footer-about { font-family: var(--sans); font-size: 0.85rem; color: rgba(250,248,244,0.6); line-height: 1.75; }
+    .footer-socials { display: flex; gap: 12px; margin-top: 24px; }
+    .social-btn {
+      width: 36px; height: 36px; border: 1px solid rgba(176,141,87,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(250,248,244,0.6);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .social-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-col-title { font-family: var(--sans); font-size: 0.75rem; color: var(--accent); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+    .footer-col ul { display: flex; flex-direction: column; gap: 12px; }
+    .footer-col a { font-family: var(--sans); font-size: 0.875rem; color: rgba(250,248,244,0.6); transition: color 0.2s; }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-contact-list { display: flex; flex-direction: column; gap: 16px; }
+    .footer-contact-item { display: flex; align-items: flex-start; gap: 12px; }
+    .footer-contact-item svg { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+    .footer-contact-item span { font-family: var(--sans); font-size: 0.875rem; color: rgba(250,248,244,0.6); }
+    .footer-bottom {
+      padding: 20px 24px;
+      border-top: 1px solid rgba(176,141,87,0.15);
+      text-align: center;
+      font-family: var(--sans); font-size: 0.75rem; color: rgba(250,248,244,0.4);
+    }
+
+    /* ── SVG ICONS ──────────────────────────────────────────────── */
+    svg { display: inline-block; vertical-align: middle; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .hero-float-card { display: none; }
+      .hero-ornament { display: none; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-image-wrap { justify-content: center; }
+      .hero-img-box { max-width: 320px; }
+      .trust-inner { grid-template-columns: repeat(2,1fr); }
+      .collections-grid { grid-template-columns: repeat(2,1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .trust-stats { grid-template-columns: repeat(2,1fr); }
+      .footer-main { grid-template-columns: 1fr 1fr; }
+      .footer-nl-inner { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .products-grid { grid-template-columns: 1fr; }
+      .trust-inner { grid-template-columns: 1fr; }
+      .footer-main { grid-template-columns: 1fr; }
+      .hero-stats { gap: 16px; }
+    }
+    /* ── CART DRAWER ───────────────────────────────────────────── */
+    .cart-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; z-index: 200;
+    }
+    .cart-overlay.open { display: block; }
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; height: 100%; width: 380px; max-width: 100%; background: #fff; box-shadow: -20px 0 60px rgba(0,0,0,0.12); transform: translateX(100%); transition: transform 0.3s; z-index: 300; display: flex; flex-direction: column;
+    }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-header { padding: 20px; border-bottom: 1px solid rgba(42,35,24,0.06); display:flex; align-items:center; justify-content:space-between; }
+    .cart-list { padding: 16px; overflow:auto; flex:1; }
+    .cart-item { display:flex; gap:12px; align-items:center; padding:12px 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+    .cart-item img { width:64px; height:64px; object-fit:cover; border-radius:6px; }
+    .cart-item .ci-info { flex:1; }
+    .cart-footer { padding:16px; border-top:1px solid rgba(42,35,24,0.06); }
+    .qty-controls { display:flex; gap:8px; align-items:center; }
+    .qty-controls button { width:28px; height:28px; background:var(--secondary); border-radius:4px; }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══════════════════════════════════════════════════════ -->
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="#" class="logo">✦ ELOGRA</a>
+
+    <nav class="nav-links">
+      <a href="#colectii">Colecții</a>
+      <a href="#produse">Bijuterii</a>
+      <a href="#">Promoții</a>
+      <a href="#">Blog</a>
+      <a href="#">Contact</a>
+    </nav>
+
+    <div class="nav-icons">
+      <button title="Căutare">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button title="Favorite">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+      <button title="Coș" style="position:relative;" onclick="openCart()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button title="Cont" class="hamburger" id="hamburgerBtn" onclick="toggleMenu()">
+        <svg id="iconMenu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg id="iconClose" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#colectii" onclick="toggleMenu()">Colecții</a>
+    <a href="#produse" onclick="toggleMenu()">Bijuterii</a>
+    <a href="#" onclick="toggleMenu()">Promoții</a>
+    <a href="#" onclick="toggleMenu()">Blog</a>
+    <a href="#" onclick="toggleMenu()">Contact</a>
+  </div>
+</header>
+
+<!-- ══ HERO ════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="eyebrow">Bijuterii de lux artizanale</p>
+      <h1 class="hero-title">
+        Eleganță care <em>strălucește</em> în fiecare detaliu
+      </h1>
+      <p class="hero-desc">
+        Descoperă colecția noastră exclusivă de bijuterii din aur și pietre prețioase,
+        create cu pasiune pentru femeile care apreciază rafinamentul.
+      </p>
+      <div class="hero-btns">
+        <a href="#colectii" class="btn-primary">Explorează colecția</a>
+        <a href="#produse" class="btn-outline">Produse noi</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-value">2,400+</div>
+          <div class="stat-label">Clienți fericiți</div>
+        </div>
+        <div>
+          <div class="stat-value">15 ani</div>
+          <div class="stat-label">De experiență</div>
+        </div>
+        <div>
+          <div class="stat-value">100%</div>
+          <div class="stat-label">Aur certificat</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-image-wrap">
+      <div class="hero-glow"></div>
+      <div class="hero-img-box">
+        <img src="https://images.unsplash.com/photo-1679466061812-211a6b737175?w=600&h=800&fit=crop&auto=format" alt="Femeie elegantă purtând bijuterii de aur" />
+        <div class="hero-season-badge">
+          <div class="small">Colecția</div>
+          <div class="big">Primăvară 2026</div>
+        </div>
+      </div>
+      <div class="hero-float-card">
+        <img src="https://images.unsplash.com/photo-1611955167811-4711904bb9f8?w=80&h=80&fit=crop&auto=format" alt="Inel cu diamant" />
+        <div>
+          <div class="fc-label">Bestseller</div>
+          <div class="fc-name">Inel Lumière</div>
+          <div class="fc-price">1.250 MDL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-ornament">✦</div>
+</section>
+
+<!-- ══ TRUST BADGES ════════════════════════════════════════════════ -->
+<section class="trust">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <svg class="trust-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      <div>
+        <div class="trust-title">Livrare gratuită</div>
+          <div class="trust-sub">La comenzi peste 500 MDL</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+      <div>
+        <div class="trust-title">Garanție 2 ani</div>
+        <div class="trust-sub">Certificat de autenticitate</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+      <div>
+        <div class="trust-title">Retur 30 zile</div>
+        <div class="trust-sub">Fără întrebări suplimentare</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      <div>
+        <div class="trust-title">Aur certificat</div>
+        <div class="trust-sub">14k, 18k și platină</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COLLECTIONS ═════════════════════════════════════════════════ -->
+<section class="collections" id="colectii">
+  <div class="collections-inner">
+    <div class="collections-header">
+      <div>
+        <p class="section-eyebrow">Descoperă</p>
+        <h2 class="section-title">Colecții populare</h2>
+      </div>
+      <a href="#" class="see-all">
+        Vezi toate
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="collections-grid">
+
+      <a href="#" class="col-card">
+        <img src="https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=600&h=700&fit=crop&auto=format" alt="Colecție de inele din aur" />
+        <div class="col-overlay"></div>
+        <div class="col-info">
+          <div class="col-name">Inele</div>
+          <div class="col-sub">42 produse</div>
+        </div>
+        <div class="col-border"></div>
+      </a>
+
+      <a href="#" class="col-card">
+        <img src="https://images.unsplash.com/photo-1621939745912-aad97fd3a34d?w=600&h=700&fit=crop&auto=format" alt="Colecție de cercei eleganți" />
+        <div class="col-overlay"></div>
+        <div class="col-info">
+          <div class="col-name">Cercei</div>
+          <div class="col-sub">38 produse</div>
+        </div>
+        <div class="col-border"></div>
+      </a>
+
+      <a href="#" class="col-card">
+        <img src="https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=600&h=700&fit=crop&auto=format" alt="Colecție de coliere din aur" />
+        <div class="col-overlay"></div>
+        <div class="col-info">
+          <div class="col-name">Coliere</div>
+          <div class="col-sub">56 produse</div>
+        </div>
+        <div class="col-border"></div>
+      </a>
+
+      <a href="#" class="col-card">
+        <img src="https://images.unsplash.com/photo-1633934542430-0905ccb5f050?w=600&h=700&fit=crop&auto=format" alt="Colecție de brățări" />
+        <div class="col-overlay"></div>
+        <div class="col-info">
+          <div class="col-name">Brățări</div>
+          <div class="col-sub">29 produse</div>
+        </div>
+        <div class="col-border"></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRODUCTS ════════════════════════════════════════════════════ -->
+<section class="products" id="produse">
+  <div class="products-inner">
+    <div class="products-header">
+      <p class="section-eyebrow">Tocmai sosite</p>
+      <h2 class="section-title">Produse noi</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- Card 1 -->
+      <div class="product-card" data-id="p1" data-price="1850">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1722410180644-5955f83ec8b1?w=500&h=600&fit=crop&auto=format" alt="Colier elegant din aur cu diamante" />
+          <div class="product-badge" style="background:#B08D57;">Nou</div>
+          <button class="wish-btn" onclick="toggleWish(this)" title="Adaugă la favorite">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8B7A5E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <button class="add-cart-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Adaugă în coș
+          </button>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Coliere</div>
+          <div class="product-name">Colier Lumière</div>
+          <div class="stars">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#B08D57" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="count">(124)</span>
+          </div>
+          <div class="price-row">
+            <span class="price">1.850 MDL</span>
+            <span class="price-old">2.200 MDL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="product-card" data-id="p2" data-price="1250">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1611955167811-4711904bb9f8?w=500&h=600&fit=crop&auto=format" alt="Inel din aur cu diamant" />
+          <div class="product-badge" style="background:#2A2318;">Bestseller</div>
+          <button class="wish-btn" onclick="toggleWish(this)" title="Adaugă la favorite">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8B7A5E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <button class="add-cart-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Adaugă în coș
+          </button>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Inele</div>
+          <div class="product-name">Inel Soleil</div>
+          <div class="stars">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#B08D57" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="count">(87)</span>
+          </div>
+          <div class="price-row">
+            <span class="price">1.250 MDL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="product-card" data-id="p3" data-price="890">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1650455221359-3aebf920bcc5?w=500&h=600&fit=crop&auto=format" alt="Cercei din aur cu pietre prețioase" />
+          <div class="product-badge" style="background:#c0392b;">-19%</div>
+          <button class="wish-btn" onclick="toggleWish(this)" title="Adaugă la favorite">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8B7A5E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <button class="add-cart-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Adaugă în coș
+          </button>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Cercei</div>
+          <div class="product-name">Cercei Aurora</div>
+          <div class="stars">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#B08D57" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="count">(56)</span>
+          </div>
+          <div class="price-row">
+            <span class="price">890 MDL</span>
+            <span class="price-old">1.100 MDL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="product-card" data-id="p4" data-price="1470">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1633934542430-0905ccb5f050?w=500&h=600&fit=crop&auto=format" alt="Brățară elegantă din aur" />
+          <div class="product-badge" style="background:#B08D57;">Limitat</div>
+          <button class="wish-btn" onclick="toggleWish(this)" title="Adaugă la favorite">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8B7A5E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <button class="add-cart-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Adaugă în coș
+          </button>
+        </div>
+        <div class="product-info">
+          <div class="product-cat">Brățări</div>
+          <div class="product-name">Brățară Étoile</div>
+          <div class="stars">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="count">(42)</span>
+          </div>
+          <div class="price-row">
+            <span class="price">1.470 MDL</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="products-cta">
+      <button id="loadMoreBtn" class="btn-outline">Vezi mai multe produse</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ════════════════════════════════════════════════ -->
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <div class="testimonials-header">
+      <p class="section-eyebrow">Recenzii</p>
+      <h2 class="section-title">Ce spun clienții noștri</h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="testimonials-grid">
+
+      <div class="testi-card">
+        <svg class="quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+        <div class="testi-stars">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testi-text">"Am cumpărat un colier pentru aniversarea noastră și soțul meu a fost impresionat. Calitatea aurului este excepțională, iar ambalajul este de lux. Cu siguranță voi reveni!"</p>
+        <p class="testi-product">Produs: Colier Lumière</p>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&auto=format" alt="Andreea Popescu" />
+          <div>
+            <div class="testi-name">Andreea Popescu</div>
+              <div class="testi-loc">Chișinău</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <svg class="quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+        <div class="testi-stars">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testi-text">"Inelul meu de logodnă de la Elogra este absolut superb. Piatra este strălucitoare, aurul este pur și echipa a fost extrem de profesionistă. Recomand cu căldură!"</p>
+        <p class="testi-product">Produs: Inel Soleil</p>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&auto=format" alt="Maria Constantin" />
+          <div>
+            <div class="testi-name">Maria Constantin</div>
+            <div class="testi-loc">Bălți</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <svg class="quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+        <div class="testi-stars">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testi-text">"Am primit cerceii în timp record și arată exact ca în poze, chiar mai frumoși! Livrarea a fost rapidă și ambalajul delicat. Servicii de 5 stele!"</p>
+        <p class="testi-product">Produs: Cercei Aurora</p>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&auto=format" alt="Elena Ionescu" />
+          <div>
+            <div class="testi-name">Elena Ionescu</div>
+            <div class="testi-loc">Cahul</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="trust-stats">
+      <div class="ts-item"><div class="ts-value">4.9/5</div><div class="ts-label">Rating mediu</div></div>
+      <div class="ts-item"><div class="ts-value">2,400+</div><div class="ts-label">Recenzii verificate</div></div>
+      <div class="ts-item"><div class="ts-value">98%</div><div class="ts-label">Clienți mulțumiți</div></div>
+      <div class="ts-item"><div class="ts-value">15 ani</div><div class="ts-label">Pe piață</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-newsletter">
+    <div class="footer-nl-inner">
+      <div>
+        <div class="footer-nl-title">Abonează-te la newsletter</div>
+        <div class="footer-nl-sub">Primește oferte exclusive și noutăți despre colecțiile noastre.</div>
+      </div>
+      <form class="footer-nl-form" onsubmit="return false;">
+        <input type="email" placeholder="Adresa ta de email" />
+        <button type="submit">Abonare</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-main">
+    <div>
+      <div class="footer-logo">✦ ELOGRA</div>
+      <div class="footer-about">Bijuterii artizanale de lux, create cu pasiune și precizie. Fiecare piesă spune o poveste unică.</div>
+      <div class="footer-socials">
+        <a href="#" class="social-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" class="social-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Colecții</div>
+      <ul>
+        <li><a href="#">Inele</a></li>
+        <li><a href="#">Cercei</a></li>
+        <li><a href="#">Coliere</a></li>
+        <li><a href="#">Brățări</a></li>
+        <li><a href="#">Seturi cadou</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Informații</div>
+      <ul>
+        <li><a href="#">Despre noi</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Ghid mărimi</a></li>
+        <li><a href="#">Autenticitate</a></li>
+        <li><a href="#">Certificare</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Contact</div>
+      <div class="footer-contact-list">
+        <div class="footer-contact-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Str. Florilor 12, Chișinău</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>+373 721 234 567</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>contact@elogra.md</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Elogra. Toate drepturile rezervate. · Politica de confidențialitate · Termeni și condiții
+  </div>
+</footer>
+  <!-- Cart overlay & drawer -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-header">
+      <strong>Coșul tău</strong>
+      <button onclick="closeCart()" aria-label="Închide coș">✕</button>
+    </div>
+    <div class="cart-list" id="cartList">
+      <!-- Items will be injectate aici -->
+    </div>
+    <div class="cart-footer">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><div>Total</div><div id="cartTotal">0 MDL</div></div>
+      <div style="display:flex;gap:8px;"><button class="btn-outline" onclick="checkout()">Cumpără</button><button class="btn-primary" onclick="clearCart()">Golire coș</button></div>
+    </div>
+  </aside>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const iconMenu = document.getElementById('iconMenu');
+    const iconClose = document.getElementById('iconClose');
+    const isOpen = menu.classList.toggle('open');
+    iconMenu.style.display = isOpen ? 'none' : 'inline-block';
+    iconClose.style.display = isOpen ? 'inline-block' : 'none';
+  }
+
+  function toggleWish(btn) {
+    btn.classList.toggle('active');
+    const svg = btn.querySelector('svg');
+    if (btn.classList.contains('active')) {
+      svg.setAttribute('fill', '#c0392b');
+      svg.setAttribute('stroke', '#c0392b');
+    } else {
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', '#8B7A5E');
+    }
+  }
+
+  // ===== Shopping cart logic =====
+  const CART_KEY = 'elograCart';
+
+  function loadCart() {
+    try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch(e) { return []; }
+  }
+
+  function saveCart(cart) {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    updateBadge();
+  }
+
+  function updateBadge() {
+    const badge = document.getElementById('cartBadge');
+    const cart = loadCart();
+    const qty = cart.reduce((s,i)=>s + (i.qty||0), 0);
+    badge.textContent = qty;
+    badge.style.display = qty > 0 ? 'flex' : 'none';
+  }
+
+  function formatPrice(n){ return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' MDL'; }
+
+  function addToCartFromButton(btn) {
+    const card = btn.closest('.product-card');
+    if (!card) return;
+    const id = card.dataset.id;
+    const name = card.querySelector('.product-name')?.textContent.trim() || 'Produs';
+    const price = Number(card.dataset.price) || 0;
+    const img = card.querySelector('img')?.src || '';
+    const cart = loadCart();
+    const existing = cart.find(i=>i.id===id);
+    if (existing) existing.qty += 1; else cart.push({id,name,price,qty:1,img});
+    saveCart(cart);
+    renderCart();
+    openCart();
+  }
+
+  function renderCart() {
+    const list = document.getElementById('cartList');
+    const totalEl = document.getElementById('cartTotal');
+    const cart = loadCart();
+    list.innerHTML = '';
+    let total = 0;
+    if (!cart.length) {
+      list.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted-fg);">Coșul este gol.</div>';
+    }
+    cart.forEach(item=>{
+      total += item.price * item.qty;
+      const el = document.createElement('div'); el.className='cart-item';
+      el.innerHTML = `
+        <img src="${item.img}" alt="${item.name}" />
+        <div class="ci-info">
+          <div style="font-weight:600">${item.name}</div>
+          <div style="margin-top:6px;display:flex;align-items:center;justify-content:space-between;">
+            <div class="qty-controls">
+              <button onclick="changeQty('${item.id}', -1)">−</button>
+              <div style="min-width:28px;text-align:center">${item.qty}</div>
+              <button onclick="changeQty('${item.id}', 1)">+</button>
+            </div>
+            <div style="font-weight:600">${formatPrice(item.price * item.qty)}</div>
+          </div>
+        </div>
+        <div style="margin-left:8px"><button onclick="removeItem('${item.id}')">×</button></div>
+      `;
+      list.appendChild(el);
+    });
+    totalEl.textContent = formatPrice(total);
+  }
+
+  function changeQty(id, delta){
+    const cart = loadCart();
+    const item = cart.find(i=>i.id===id); if (!item) return;
+    item.qty = Math.max(0, item.qty + delta);
+    const updated = cart.filter(i=>i.qty>0);
+    saveCart(updated);
+    renderCart();
+  }
+
+  function removeItem(id){
+    const cart = loadCart().filter(i=>i.id!==id);
+    saveCart(cart); renderCart();
+  }
+
+  function clearCart(){ localStorage.removeItem(CART_KEY); updateBadge(); renderCart(); }
+
+  function openCart(){ document.getElementById('cartDrawer').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartDrawer').setAttribute('aria-hidden','false'); }
+  function closeCart(){ document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartDrawer').setAttribute('aria-hidden','true'); }
+
+  function checkout(){ const cart = loadCart(); if (!cart.length) { alert('Coșul este gol.'); return; } alert('Mulțumim pentru comandă — funcționalitate demo.'); clearCart(); closeCart(); }
+
+  // Delegate clicks for dynamically added add-to-cart buttons
+  document.addEventListener('click', (e)=>{
+    const addBtn = e.target.closest && e.target.closest('.add-cart-bar');
+    if (addBtn) { e.stopPropagation(); addToCartFromButton(addBtn); }
+  });
+
+  // ===== Dynamic product loading =====
+  const baseProducts = [
+    // initial 4 (match static cards) - mapped to files in poze/ when available
+    {id:'p1', name:'Colier Lumière', price:1850, imgLocal:'poze/1.png', fallback:'https://images.unsplash.com/photo-1722410180644-5955f83ec8b1?w=500&h=600&fit=crop&auto=format', cat:'Coliere'},
+    {id:'p2', name:'Inel Soleil', price:1250, imgLocal: (function(){ try { return 'poze/2.png'; } catch(e){ return 'https://images.unsplash.com/photo-1611955167811-4711904bb9f8?w=500&h=600&fit=crop&auto=format'; } })(), fallback:'https://images.unsplash.com/photo-1611955167811-4711904bb9f8?w=500&h=600&fit=crop&auto=format', cat:'Inele'},
+    {id:'p3', name:'Cercei Aurora', price:890, imgLocal:'poze/3.png', fallback:'https://images.unsplash.com/photo-1650455221359-3aebf920bcc5?w=500&h=600&fit=crop&auto=format', cat:'Cercei'},
+    {id:'p4', name:'Brățară Étoile', price:1470, imgLocal:'images/p4.jpg', fallback:'https://images.unsplash.com/photo-1633934542430-0905ccb5f050?w=500&h=600&fit=crop&auto=format', cat:'Brățări'},
+    // additional unique jewelry products (mapped from poze/ when present)
+    {id:'p5', name:'Pandantiv Aurora', price:760, imgLocal:'poze/5.png', fallback:'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500&h=600&fit=crop&auto=format', cat:'Pandantive'},
+    {id:'p6', name:'Cercei Lila', price:540, imgLocal:'poze/6.png', fallback:'https://images.unsplash.com/photo-1509099836639-18ba97b37f33?w=500&h=600&fit=crop&auto=format', cat:'Cercei'},
+    {id:'p7', name:'Inel Solstice', price:1330, imgLocal:'poze/7.png', fallback:'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=500&h=600&fit=crop&auto=format', cat:'Inele'},
+    {id:'p8', name:'Colier Maris', price:980, imgLocal:'images/p8.jpg', fallback:'https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?w=500&h=600&fit=crop&auto=format', cat:'Coliere'},
+    {id:'p9', name:'Brățară Luna', price:670, imgLocal:'poze/9.png', fallback:'https://images.unsplash.com/photo-1520975913151-3f9a9aad6e1d?w=500&h=600&fit=crop&auto=format', cat:'Brățări'},
+    {id:'p10', name:'Set Elegance', price:2450, imgLocal:'poze/10.png', fallback:'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500&h=600&fit=crop&auto=format', cat:'Seturi'},
+    {id:'p11', name:'Brosă Vintage', price:420, imgLocal:'images/p11.jpg', fallback:'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&h=600&fit=crop&auto=format', cat:'Brosuri'},
+    {id:'p12', name:'Cercei Pearl', price:1150, imgLocal:'images/p12.jpg', fallback:'https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=500&h=600&fit=crop&auto=format', cat:'Cercei'}
+  ];
+  // start generated index after the 4 static cards
+  let generatedCount = 4;
+
+  function createProductCard(p){
+    const div = document.createElement('div'); div.className='product-card'; div.dataset.id = p.id; div.dataset.price = p.price;
+    div.innerHTML = `
+      <div class="product-img-wrap">
+        <img src="${p.imgLocal || p.fallback || p.img}" alt="${p.name}" onerror="this.onerror=null;this.src='${p.fallback || p.img}'" />
+        <div class="product-badge" style="background:#B08D57;">Nou</div>
+        <button class="wish-btn" onclick="toggleWish(this)" title="Adaugă la favorite">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8B7A5E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="add-cart-bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Adaugă în coș
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">${p.cat}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="stars">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="#B08D57" stroke="#B08D57" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span class="count">(100)</span>
+        </div>
+        <div class="price-row">
+          <span class="price">${p.price} MDL</span>
+        </div>
+      </div>
+    `;
+    return div;
+  }
+
+  function loadMoreProducts(count=4){
+    const grid = document.querySelector('.products-grid');
+    const remaining = baseProducts.length - generatedCount;
+    if (remaining <= 0) {
+      const btn = document.getElementById('loadMoreBtn'); btn.disabled = true; btn.textContent = 'Nu sunt alte produse'; return;
+    }
+    const toLoad = Math.min(count, remaining);
+    for(let i=0;i<toLoad;i++){
+      const base = baseProducts[generatedCount + i];
+      const copy = Object.assign({}, base, { id: base.id + '-g' + (generatedCount + i + 1) });
+      grid.appendChild(createProductCard(copy));
+    }
+    generatedCount += toLoad;
+    if (generatedCount >= baseProducts.length) { const btn = document.getElementById('loadMoreBtn'); btn.disabled = true; btn.textContent = 'Nu sunt alte produse'; }
+  }
+
+  document.getElementById('loadMoreBtn').addEventListener('click', ()=> loadMoreProducts(4));
+
+  // initialize
+  updateBadge(); renderCart();
+
+  // ===== Batch add from user spec (ex: "2 la Pandantiv Aurora,3 la Cercei Lila") =====
+  function addOrIncrease(prodObj, qty) {
+    const cart = loadCart();
+    const existing = cart.find(i=>i.id === prodObj.id);
+    if (existing) existing.qty = (existing.qty || 0) + qty; else cart.push({ id: prodObj.id, name: prodObj.name, price: prodObj.price, qty: qty, img: prodObj.imgLocal || prodObj.fallback });
+    saveCart(cart);
+  }
+
+  function findProductByName(name) {
+    const n = name.trim().toLowerCase();
+    return baseProducts.find(p=>p.name.toLowerCase() === n) || baseProducts.find(p=>p.name.toLowerCase().includes(n));
+  }
+
+  function findProductById(id) {
+    return baseProducts.find(p=>p.id === id);
+  }
+
+  function batchAddFromSpec(spec) {
+    if (!spec) return;
+    // if contains id:'p12' add one of that id
+    const idMatch = spec.match(/id\s*:\s*'([^']+)'/i);
+    if (idMatch) {
+      const prod = findProductById(idMatch[1]);
+      if (prod) addOrIncrease(prod, 1);
+    }
+
+    // parse patterns like "2 la Pandantiv Aurora"
+    const parts = spec.split(',');
+    parts.forEach(part => {
+      const m = part.match(/(\d+)\s*la\s*(.+)/i);
+      if (m) {
+        const qty = parseInt(m[1], 10);
+        const name = m[2].trim();
+        if (!isNaN(qty) && name) {
+          const prod = findProductByName(name);
+          if (prod) addOrIncrease(prod, qty);
+        }
+      }
+    });
+    renderCart(); updateBadge();
+  }
+
+  // Apply the user's spec (copied from message). Ignore malformed entries.
+  batchAddFromSpec("{id:'p12', name:'Cercei Pearl', price:1150, imgLocal:'images/p12.jpg', fallback:'https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=500&h=600&fit=crop&auto=format', cat:'Cercei'} 2 la Pandantiv Aurora,3 la Cercei Lila, 5 la Colier Maris,6 la Brățară Luna, 7 la Set Elegance, 9 la Brosă Vintage, 10 la");
+</script>
+</body>
+</html>
