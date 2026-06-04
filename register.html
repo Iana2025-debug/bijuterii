@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Register</title>
+  <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+  <main>
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2>Înregistrare</h2>
+          <p>Crează un cont nou pentru a comanda produse</p>
+        </div>
+        <form id="registerForm">
+          <div class="input-row">
+            <label for="name">Nume</label>
+            <input id="name" type="text" name="name" required>
+          </div>
+          <div class="input-row">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" required>
+          </div>
+          <div class="input-row">
+            <label for="password">Parolă</label>
+            <input id="password" type="password" name="password" required>
+          </div>
+          <div class="input-row">
+            <label for="confirmPassword">Confirmă parola</label>
+            <input id="confirmPassword" type="password" name="confirmPassword" required>
+          </div>
+          <div class="auth-actions">
+            <button type="submit">Înregistrează-te</button>
+            <button type="button" class="btn-secondary" onclick="window.location.href='login.html'">Am deja cont</button>
+          </div>
+          <div id="registerMessage" class="message" role="status" aria-live="polite"></div>
+        </form>
+        <div class="auth-footer">Ai deja cont? <a href="login.html">Conectează-te</a></div>
+      </div>
+    </div>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>

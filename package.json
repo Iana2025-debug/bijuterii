@@ -1,0 +1,14 @@
+{
+  "name": "practica-app",
+  "version": "1.0.0",
+  "description": "Simple app to register users and store them in users.json",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3"
+  }
+}
