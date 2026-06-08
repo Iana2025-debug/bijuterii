@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Achitare — ELOGRA</title>
+  <link rel="stylesheet" href="CSS/style.css" />
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#FAF8F4;color:#2A2318;padding:24px}
+    .wrap{max-width:720px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+    h1{font-family:'Playfair Display',serif;margin-bottom:8px}
+    label{display:block;margin-top:12px;font-size:0.9rem}
+    input{width:100%;padding:10px;margin-top:6px;border:1px solid #ddd;border-radius:6px}
+    .row{display:flex;gap:12px}
+    .row > *{flex:1}
+    .summary{border-top:1px solid #eee;margin-top:16px;padding-top:12px}
+    .btn-primary{background:#B08D57;color:#fff;padding:10px 16px;border-radius:6px;border:none;margin-top:12px}
+    .note{font-size:0.9rem;color:#666;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Plata comenzii</h1>
+    <p class="note">Introduceți datele cardului pentru a finaliza comanda (demo — nu vom păstra numărul complet al cardului).</p>
+
+    <div id="orderSummary"></div>
+
+    <form id="paymentForm">
+      <label for="cardHolder">Nume de pe card</label>
+      <input id="cardHolder" name="cardHolder" required />
+
+      <label for="cardNumber">Număr card</label>
+      <input id="cardNumber" name="cardNumber" inputmode="numeric" placeholder="XXXX XXXX XXXX XXXX" required />
+
+      <div class="row">
+        <div>
+          <label for="expiry">Expirare (MM/YY)</label>
+          <input id="expiry" name="expiry" placeholder="MM/YY" required />
+        </div>
+        <div>
+          <label for="cvv">CVV</label>
+          <input id="cvv" name="cvv" inputmode="numeric" placeholder="XXX" required />
+        </div>
+      </div>
+
+      <button class="btn-primary" type="submit">Plătește și finalizează comanda</button>
+    </form>
+
+    <div id="result" class="note" role="status" aria-live="polite"></div>
+  </div>
+
+  <script>
+    const CART_KEY = 'elograCart';
+    function loadCart(){ try{ return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }catch(e){return []} }
+    function formatPrice(n){ return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.') + ' MDL'; }
+
+    function renderSummary(){
+      const cart = loadCart();
+      const wrap = document.getElementById('orderSummary');
+      if(!cart.length){ wrap.innerHTML = '<div style="padding:16px;color:#666">Coșul este gol.</div>'; return; }
+      let total = 0; const lines = cart.map(i=>{ total += i.price * i.qty; return `<div style="display:flex;justify-content:space-between;padding:6px 0"><span>${i.name} ×${i.qty}</span><span style="font-weight:600">${formatPrice(i.price * i.qty)}</span></div>` });
+      wrap.innerHTML = `<div><strong>Sumar comandă</strong><div style="margin-top:8px">${lines.join('')}</div><div class="summary" style="display:flex;justify-content:space-between"><strong>Total</strong><strong>${formatPrice(total)}</strong></div></div>`;
+    }
+
+    renderSummary();
+
+    document.getElementById('paymentForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const cart = loadCart();
+      if(!cart.length){ alert('Coșul este gol.'); return; }
+      const cardHolder = document.getElementById('cardHolder').value.trim();
+      const cardNumber = document.getElementById('cardNumber').value.replace(/\s+/g,'');
+      const expiry = document.getElementById('expiry').value.trim();
+      const cvv = document.getElementById('cvv').value.trim();
+
+      if(cardNumber.length < 12){ alert('Introduceți un număr valid de card.'); return; }
+
+      const last4 = cardNumber.slice(-4);
+      const total = cart.reduce((s,i)=>s + (i.price * (i.qty||1)), 0);
+
+      // Build order payload WITHOUT storing full PAN/CVV
+      const payload = { items: cart, total, payment: { cardHolder, last4, expiry }, customer: null };
+
+      try{
+        const res = await fetch('php/save_data.php', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+        const j = await res.json().catch(()=>({}));
+        if(res.ok){
+          document.getElementById('result').textContent = `Comanda #${j.orderId} înregistrată. Veți primi un e‑mail de confirmare.`;
+          // clear cart
+          localStorage.removeItem(CART_KEY);
+          // update summary
+          renderSummary();
+        }else{
+          document.getElementById('result').textContent = j && j.error ? j.error : 'Eroare la procesarea comenzii.';
+        }
+      }catch(err){ console.error(err); document.getElementById('result').textContent = 'Eroare de rețea — încearcă din nou mai târziu.'; }
+    });
+  </script>
+</body>
+</html>

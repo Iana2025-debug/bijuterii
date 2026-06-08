@@ -490,7 +490,7 @@
       <a href="#">Promoții</a>
       <a href="#">Blog</a>
       <a href="#">Contact</a>
-      <a href="login.html">Login</a>
+      <a href="#" id="loginLink" onclick="openLoginModal();return false;">Login</a>
       <a href="register.html">Register</a>
     </nav>
 
@@ -517,7 +517,7 @@
     <a href="#" onclick="toggleMenu()">Promoții</a>
     <a href="#" onclick="toggleMenu()">Blog</a>
     <a href="#" onclick="toggleMenu()">Contact</a>
-    <a href="login.html" onclick="toggleMenu()">Login</a>
+    <a href="#" onclick="toggleMenu(); openLoginModal(); return false;">Login</a>
     <a href="register.html" onclick="toggleMenu()">Register</a>
   </div>
 </header>
@@ -1098,7 +1098,7 @@
   function openCart(){ document.getElementById('cartDrawer').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartDrawer').setAttribute('aria-hidden','false'); }
   function closeCart(){ document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartDrawer').setAttribute('aria-hidden','true'); }
 
-  function checkout(){ const cart = loadCart(); if (!cart.length) { alert('Coșul este gol.'); return; } alert('Mulțumim pentru comandă — funcționalitate demo.'); clearCart(); closeCart(); }
+  function checkout(){ const cart = loadCart(); if (!cart.length) { alert('Coșul este gol.'); return; } window.location.href = 'achitare.html'; }
 
   // Delegate clicks for dynamically added add-to-cart buttons
   document.addEventListener('click', (e)=>{
@@ -1221,5 +1221,43 @@
   // Apply the user's spec (copied from message). Ignore malformed entries.
   batchAddFromSpec("{id:'p12', name:'Cercei Pearl', price:1150, imgLocal:'images/p12.jpg', fallback:'https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=500&h=600&fit=crop&auto=format', cat:'Cercei'} 2 la Pandantiv Aurora,3 la Cercei Lila, 5 la Colier Maris,6 la Brățară Luna, 7 la Set Elegance, 9 la Brosă Vintage, 10 la");
 </script>
+  <!-- Login modal -->
+  <div id="loginModal" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;z-index:1000;">
+    <div id="loginOverlay" style="position:absolute;inset:0;background:rgba(0,0,0,0.4);" onclick="closeLoginModal()"></div>
+    <div style="position:relative;background:#fff;padding:20px;border-radius:8px;max-width:420px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,0.2);z-index:1001">
+      <button style="position:absolute;right:10px;top:10px;background:none;border:none;font-size:18px;" onclick="closeLoginModal()">✕</button>
+      <h3 style="margin-bottom:8px">Autentificare</h3>
+      <form id="loginFormModal">
+        <label style="display:block;margin-top:8px">Email
+          <input id="modalEmail" name="email" type="email" required style="width:100%;padding:8px;margin-top:6px;border:1px solid #ddd;border-radius:4px" />
+        </label>
+        <label style="display:block;margin-top:8px">Parolă
+          <input id="modalPassword" name="password" type="password" required style="width:100%;padding:8px;margin-top:6px;border:1px solid #ddd;border-radius:4px" />
+        </label>
+        <div id="loginModalMessage" style="color:#c0392b;margin-top:8px"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end">
+          <button type="button" onclick="closeLoginModal()" style="padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#fff">Anulează</button>
+          <button type="submit" style="padding:8px 12px;border-radius:6px;background:#B08D57;color:#fff;border:none">Conectează-te</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openLoginModal(){ document.getElementById('loginModal').style.display = 'flex'; }
+    function closeLoginModal(){ document.getElementById('loginModal').style.display = 'none'; }
+    document.getElementById('loginFormModal').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const email = document.getElementById('modalEmail').value.trim();
+      const password = document.getElementById('modalPassword').value;
+      const msg = document.getElementById('loginModalMessage'); msg.textContent='';
+      try{
+        const res = await fetch('php/auth.php?action=login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ email, password }) });
+        const j = await res.json().catch(()=>({}));
+        if(res.ok){ window.location.href = 'dashboard.php'; }
+        else { msg.textContent = j && j.error ? j.error : 'Autentificare eșuată.'; }
+      }catch(err){ console.error(err); msg.textContent = 'Eroare de rețea.'; }
+    });
+  </script>
 </body>
 </html>
