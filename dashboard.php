@@ -7,7 +7,29 @@
   <section>
     <h2>Comenzi</h2>
     <?php if(empty($orders)): ?><div>Nu există comenzi.</div><?php else: ?>
-      <ul><?php foreach($orders as $o): ?><li>#<?php echo $o['id']; ?> — <?php echo htmlspecialchars($o['total']); ?> — <?php echo htmlspecialchars($o['createdAt']); ?></li><?php endforeach; ?></ul>
+      <ul><?php foreach($orders as $o): ?><li>#<?php echo $o['id']; ?> — <?php echo htmlspecialchars($o['total']); ?> — <?php echo htmlspecialchars($o['createdAt']); ?><?php if(isset($o['userId'])) echo ' — User: ' . htmlspecialchars($o['userId']); ?></li><?php endforeach; ?></ul>
+    <?php endif; ?>
+  </section>
+  <section>
+    <h2>Comenzile mele</h2>
+    <p><a class="btn-outline" href="php/export_orders.php">Exportă CSV</a></p>
+    <?php
+      $my = [];
+      foreach($orders as $o) if(isset($o['userId']) && $o['userId'] === $user['id']) $my[] = $o;
+    ?>
+    <?php if(empty($my)): ?><div>Nu ai plasat încă nicio comandă.</div><?php else: ?>
+      <ul>
+      <?php foreach($my as $o): ?>
+        <li>
+          <strong>#<?php echo $o['id']; ?></strong> — <?php echo htmlspecialchars($o['total']); ?> — <?php echo htmlspecialchars($o['createdAt']); ?>
+          <ul>
+            <?php foreach($o['items'] as $it): ?>
+              <li><?php echo htmlspecialchars(($it['name'] ?? 'Produs') . ' ×' . ($it['qty'] ?? 1) . ' — ' . ($it['price'] ?? 0) . ' MDL'); ?></li>
+            <?php endforeach; ?>
+          </ul>
+        </li>
+      <?php endforeach; ?>
+      </ul>
     <?php endif; ?>
   </section>
   <section>

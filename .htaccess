@@ -1,0 +1,11 @@
+# Redirect root of /practica/ to the shop page
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /practica/
+  RewriteRule ^$ /practica/bijuterii.html [R=302,L]
+</IfModule>
+
+# Fallback for servers without mod_rewrite
+<IfModule !mod_rewrite.c>
+  RedirectMatch 302 ^/$ /practica/bijuterii.html
+</IfModule>

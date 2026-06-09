@@ -19,6 +19,10 @@ $order = [
   'payment'=>isset($j['payment'])?['cardHolder'=>$j['payment']['cardHolder'] ?? null,'last4'=>$j['payment']['last4'] ?? null,'expiry'=>$j['payment']['expiry'] ?? null]:null,
   'createdAt'=>date(DATE_ATOM)
 ];
+
+// Attach user id if available in session (allows users to view their own orders)
+$current = current_user();
+if($current && isset($current['id'])){ $order['userId'] = $current['id']; }
 $orders[] = $order;
 write_json('orders.json', $orders);
 header('Content-Type: application/json'); echo json_encode(['orderId'=>$next]);

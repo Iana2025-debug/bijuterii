@@ -9,6 +9,6 @@
     <label>Parolă<input type="password" name="password" required></label>
     <button type="submit">Login</button>
   </form>
-  <p>Nu ai cont? <a href="register.php">Înregistrează-te</a></p>
+  <p>Nu ai cont? <a href="register.html">Înregistrează-te</a></p>
 </main>
 </body></html>
